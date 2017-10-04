@@ -168,5 +168,36 @@ def buscaElemento(arbol, atributo, valor="", elemento=""):
         return sinElem()
 
 
+def convTree(root):
+    d = {}
+    tag = pruneTag(root)
+    d[tag] = buildDict(root)
+    return d
+
+
+def buildDict(tree):
+    d = {}
+    for a in tree.attrib.keys():
+        d[a] = tree.attrib[a]
+    for c in tree.getchildren():
+        tg = pruneTag(c)
+        if tg in d.keys():
+            if d[tg].get("tipo", "") == "l":
+                d[tg]["valores"].append(buildDict(c))
+            else:
+                rec = d[tg]
+                d[tg] = {"tipo": "l", "valores": [rec]}
+        else:
+            d[pruneTag(c)] = buildDict(c)
+    return d
+
+
+def evaluate(d, kis):
+    if not kis:
+        return d
+    else:
+        return evaluate(d[kis[0]], kis[1:])
+
+
 if __name__ == '__main__':
     pass

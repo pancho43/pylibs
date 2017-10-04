@@ -5,6 +5,8 @@ import time
 
 
 def primero(n):
+    """ Signo de primero para usar en fecha como texto.
+    """
     if n == 1:
         return "°"
     else:
@@ -12,7 +14,8 @@ def primero(n):
 
 
 def getYear(fe):
-    """ Regresa el año de la fecha dada, a partir de 1900."""
+    """ Regresa el año de la fecha dada, a partir de 1900.
+    """
     if len(fe) < 8:
         return 0
     else:
@@ -24,7 +27,8 @@ def getYear(fe):
 
 
 def getMonth(fe):
-    """ Regresa elmes de la fecha dada,validando"""
+    """ Regresa el mes de la fecha dada,validando.
+    """
     if len(fe) < 8:
         return 0
     mo = int(fe[4:6])
@@ -35,7 +39,8 @@ def getMonth(fe):
 
 
 def getDay(fe):
-    """ Regresa el día de la fecha dada, validando."""
+    """ Regresa el día de la fecha dada, validando.
+    """
     if len(fe) < 8:
         return 0
     ye = getYear(fe)
@@ -65,6 +70,7 @@ def getWeekDay(fe):
 def getDayName(fe):
     """Regresa el nombre en español del día de la semana.
     """
+    global dias
     return dias[fe2int(fe) % 7]
 
 
@@ -248,8 +254,8 @@ meses = {"ene": "01", "feb": "02", "mar": "03", "abr": "04", "may": "05",
          "jun": "06", "jul": "07", "ago": "08", "sep": "09", "oct": "10",
          "nov": "11", "dic": "12"}
 mesesE = {"jan": "01", "feb": "02", "mar": "03", "apr": "04", "may": "05",
-         "jun": "06", "jul": "07", "aug": "08", "sep": "09", "oct": "10",
-         "nov": "11", "dec": "12"}
+          "jun": "06", "jul": "07", "aug": "08", "sep": "09", "oct": "10",
+          "nov": "11", "dec": "12"}
 nombres = ("enero", "febrero", "marzo", "abril", "mayo", "junio", "julio",
            "agosto", "septiembre", "octubre", "noviembre", "diciembre")
 dias = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes",
