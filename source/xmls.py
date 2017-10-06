@@ -205,7 +205,7 @@ def buildDict(tree):
             if d[tg].get("tipo", "") == "l":
                 d[tg]["valores"].append(buildDict(c))
             else:
-                rec = d[tg]
+                rec = buildDict(c)
                 d[tg] = {"tipo": "l", "valores": [d1, rec]}
         else:
             d[pruneTag(c)] = buildDict(c)
