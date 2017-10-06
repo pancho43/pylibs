@@ -168,7 +168,16 @@ def buscaElemento(arbol, atributo, valor="", elemento=""):
         return sinElem()
 
 
+# --------------------------------------------------------------
+# Nueva interfaz
+# ------------------------------------------------------------------------
 def convTree(root):
+    """ Convierte un árbol de CFDI en un diccionario para acceso standard.
+
+    :param root: árbol a procesar.
+    :returns: diccionario con los tag del árbol como llaves y los subárboles
+    y atributos como subdiccionarios.
+    """
     d = {}
     tag = pruneTag(root)
     d[tag] = buildDict(root)
@@ -176,23 +185,40 @@ def convTree(root):
 
 
 def buildDict(tree):
+    """ Recursivamente lee subárboles y los convierte en diccionarios anidados.
+
+    :param tree: árbol o sub-árbol a procesar.
+    :returns: diccionario.
+    Cada par atributo:valor se convierte en un elemento llave:valor en el
+    diccionario. Cada subárbol se convierte en un nuevo sub-diccionario
+    con el tag como llave.
+    Para llaves que se repiten se crea un diccionario con llaves "tipo" y
+    "valores", con tipo = "1" y valores una lista de diccionarios.
+    """
     d = {}
     for a in tree.attrib.keys():
         d[a] = tree.attrib[a]
     for c in tree.getchildren():
         tg = pruneTag(c)
         if tg in d.keys():
+            d1 = d[tg]
             if d[tg].get("tipo", "") == "l":
                 d[tg]["valores"].append(buildDict(c))
             else:
                 rec = d[tg]
-                d[tg] = {"tipo": "l", "valores": [rec]}
+                d[tg] = {"tipo": "l", "valores": [d1, rec]}
         else:
             d[pruneTag(c)] = buildDict(c)
     return d
 
 
 def evaluate(d, kis):
+    """ Obtiene el valor detrás de una lista de llaves, en el diccionario.
+
+    :param d: diccionario obtenido de un XML.
+    :param kis: lista, cada elemento es una llave. La primera es una llave
+    de d, y las siguientes lo son de los subdiccionarios respectivos.
+    """
     if not kis:
         return d
     else:
